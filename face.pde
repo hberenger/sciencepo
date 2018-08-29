@@ -14,8 +14,8 @@ void setup() {
   size(800, 600);
   
   // Configuration de la capture
-  video = new Capture(this, resolutionCamX, 240);
-  opencv = new OpenCV(this, resolutionCamX, 240);
+  video = new Capture(this, resolutionCamX, resolutionCamY);
+  opencv = new OpenCV(this, resolutionCamX, resolutionCamY);
   // Essayer aussi : CASCADE_MOUTH, CASCADE_EYE , CASCADE_FRONTALFACE...
   opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);
   video.start();
@@ -55,7 +55,7 @@ void draw() {
   }
 }
 
-// Glue appelée à chaque image capturéz ; à copier dans le sketch
+// Glue appelée à chaque image capturée ; à copier dans le sketch
 void captureEvent(Capture c) {
   c.read();
 }
