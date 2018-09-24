@@ -1,31 +1,31 @@
-// A mettre en haut
+// Put this at the top of your sketch
 import gab.opencv.*;
 import processing.video.*;
 import java.awt.*;
 
-// 4 variables de plus
+// 4 more variables
 Capture video;
 OpenCV opencv;
 int resolutionCamX = 320;
 int resolutionCamY = 240;
 
 void setup() {
-  // OK ça on connait
+  // OK, we already know this 'size' function
   size(800, 600);
   
-  // Configuration de la capture
+  // Video capture configuration
   video = new Capture(this, resolutionCamX, resolutionCamY);
   opencv = new OpenCV(this, resolutionCamX, resolutionCamY);
-  // Essayer aussi : CASCADE_MOUTH, CASCADE_EYE , CASCADE_FRONTALFACE...
+  // Try also : CASCADE_MOUTH, CASCADE_EYE, CASCADE_FRONTALFACE...
   opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);
   video.start();
 }
 
 Rectangle detectFace() {
-  // récupère le "bouding frame" (cadre) entourant les objets détectés
+  // Returns the "bouding frame" surrounding the detected objects
   Rectangle[] faces = opencv.detect();
   if ( faces.length > 0) {
-    // Ajuste le premier cadre à la résolution du sketch
+    // Adjust the first frame to the sketch resolution
     int xRect = faces[0].x * width / resolutionCamX;
     int yRect = faces[0].y * height / resolutionCamY;
     int wRect = faces[0].width * width / resolutionCamX;
@@ -37,17 +37,17 @@ Rectangle detectFace() {
 }
 
 void draw() {
-  // Envoie la vidéo à openCV pour traitement
+  // Sends the video to openCV for processing
   opencv.loadImage(video);
 
-  // Affiche l'image capturée à l'écran
+  // Displays the captured image in the main window
   image(video, 0, 0, width, height);
 
   Rectangle face = detectFace();
   
   if (face != null) {
     println(face.x + "," + face.y);
-    // Dessine le cadre
+    // Draws the green frame
     noFill();
     stroke(0, 255, 0);
     strokeWeight(3);
@@ -55,7 +55,9 @@ void draw() {
   }
 }
 
-// Glue appelée à chaque image capturée ; à copier dans le sketch
+// Boilerplate "glue" code ; called for each captured image
+// To be copied into your sketch
 void captureEvent(Capture c) {
   c.read();
 }
+
